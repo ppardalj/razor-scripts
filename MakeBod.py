@@ -8,55 +8,119 @@ class NotEnoughItems(Exception):
 items_info = {
     "skullcap": {
         "gumpId": 2,
-        "itemId": 5444
+        "itemId": 5444,
+        "category": 1
     },
     "bandana": {
         "gumpId": 9,
-        "itemId": 5440 
+        "itemId": 5440,
+        "category": 1
     },
     "floppy hat": {
         "gumpId": 16,
-        "itemId": 5907
+        "itemId": 5907,
+        "category": 1
     },
     "cap": {
         "gumpId": 23,
-        "itemId": 5909
+        "itemId": 5909,
+        "category": 1
     },
     "wide-brim hat": {
         "gumpId": 30,
-        "itemId": 5908
+        "itemId": 5908,
+        "category": 1
     },
     "straw hat": {
         "gumpId": 37,
-        "itemId": 5911
+        "itemId": 5911,
+        "category": 1
     },
     "tall straw hat": {
         "gumpId": 44,
-        "itemId": 5910
+        "itemId": 5910,
+        "category": 1
     },
     "wizard's hat": {
         "gumpId": 51,
-        "itemId": 5912
+        "itemId": 5912,
+        "category": 1
     },
     "bonnet": {
         "gumpId": 58,
-        "itemId": 5913
+        "itemId": 5913,
+        "category": 1
     },
     "feathered hat": {
         "gumpId": 65,
-        "itemId": 5914
+        "itemId": 5914,
+        "category": 1
     },
     "tricorne hat": {
         "gumpId": 72,
-        "itemId": 5915
+        "itemId": 5915,
+        "category": 1
     },
     "jester hat": {
         "gumpId": 79,
-        "itemId": 5916
+        "itemId": 5916,
+        "category": 1
     },
     "flower garland": {
         "gumpId": 86,
-        "itemId": 8966
+        "itemId": 8966,
+        "category": 1
+    },
+
+    "doublet": {
+        "gumpId": 2,
+        "itemId": 8059,
+        "category": 8
+    },
+    "shirt": {
+        "gumpId": 9,
+        "itemId": 5399,
+        "category": 8
+    },
+    "fancy shirt": {
+        "gumpId": 16,
+        "itemId": 7933,
+        "category": 8
+    },
+    "tunic": {
+        "gumpId": 23,
+        "itemId": 8097,
+        "category": 8
+    },
+    "surcoat": {
+        "gumpId": 30,
+        "itemId": 8189,
+        "category": 8
+    },
+    "plain dress": {
+        "gumpId": 37,
+        "itemId": 7937,
+        "category": 8
+    },
+    "fancy dress": {
+        "gumpId": 44,
+        "itemId": 7936,
+        "category": 8
+    },
+    "cloak": {
+        "gumpId": 51,
+        "itemId": 5397,
+        "category": 8
+    },
+    "robe": {
+        "gumpId": 58,
+        "itemId": 7939,
+        "category": 8
+    },
+    "jester suit": {
+        "gumpId": 65,
+        "itemId": 8095,
+        "category": 8
     }
 }
 
@@ -146,6 +210,8 @@ def make_item(item_info):
     Misc.Pause(500)
     logger.info("Using tool")
     tailor_craft_gump = TailorCraftGump()
+    tailor_craft_gump.wait_for()
+    tailor_craft_gump.press_button(item_info["category"])
     tailor_craft_gump.wait_for()
     tailor_craft_gump.press_button(item_info["gumpId"])
     tailor_craft_gump.wait_for()
