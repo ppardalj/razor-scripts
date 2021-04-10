@@ -1,10 +1,6 @@
 import re
-
-def log_info(message):
-    Misc.SendMessage("INFO: " + message)
-    
-def log_error(message):
-    Misc.SendMessage("ERROR: " + message)
+from utils import log
+logger = log.Logger(Misc)
 
 class BulkOrderDeed:
     def __init__(self, item):
@@ -81,23 +77,23 @@ def fill_bod():
         Misc.SendMessage("Please craft the first item")
         Misc.Pause(10000)
         amount_done += 1
-        log_info("Bod progress: " + str(amount_done) + "/" + str(amount_to_make))
+        logger.info("Bod progress: " + str(amount_done) + "/" + str(amount_to_make))
         
         while amount_done < amount_to_make:
-            log_info("Will make another item")
+            logger.info("Will make another item")
             tailor_craft_gump.wait_for()
             tailor_craft_gump.make_last()
             amount_done += 1
             tailor_craft_gump.wait_for()
-            log_info("Bod progress: " + str(amount_done) + "/" + str(amount_to_make))
+            logger.info("Bod progress: " + str(amount_done) + "/" + str(amount_to_make))
             
         if amount_done >= amount_to_make:
-            log_info("Finished making goods!")
+            logger.info("Finished making goods!")
             tailor_craft_gump.close()
         else:
-            log_error("Something went wrong")
+            logger.error("Something went wrong")
     else:
-        log_error("That is not a valid bod")
+        logger.error("That is not a valid bod")
  
 fill_bod()       
 #fill_bod()

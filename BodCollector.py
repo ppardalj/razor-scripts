@@ -1,14 +1,11 @@
-def log_info(message):
-    Misc.SendMessage("INFO: " + message)
-    
-def log_error(message):
-    Misc.SendMessage("ERROR: " + message)
+from utils import log
+logger = log.Logger(Misc)
 
 class NotEnoughItems(Exception):
     pass
     
 def fill_bod(bod, item_id):
-    log_info("Trying to fill bod...")
+    logger.info("Trying to fill bod...")
     Journal.Clear()
     Items.UseItem(bod)
     
@@ -24,7 +21,7 @@ def fill_bod(bod, item_id):
         Target.TargetExecute(item_to_target)
 
     Gumps.SendAction(1526454082, 0)    
-    log_info("Bod filled!")
+    logger.info("Bod filled!")
 
 
 
@@ -37,11 +34,11 @@ if bod is not None:
             fill_bod(bod, target_item_id)
         except NotEnoughItems:
             Target.Cancel()
-            log_error("Not enough items to fill the bod")
+            logger.error("Not enough items to fill the bod")
     else:
-        log_error("Sample item is invalid")
+        logger.error("Sample item is invalid")
     
 else:
-    log_error("That is not a valid bod")
+    logger.error("That is not a valid bod")
 
     
