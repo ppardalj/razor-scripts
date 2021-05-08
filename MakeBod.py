@@ -121,6 +121,42 @@ items_info = {
         "gumpId": 65,
         "itemId": 8095,
         "category": 8
+    },
+    "short pants": {
+        "gumpId": 2,
+        "itemId": 5422,
+        "category": 15
+    },
+    "long pants": {
+        "gumpId": 9,
+        "itemId": 5433,
+        "category": 15
+    },
+    "kilt": {
+        "gumpId": 16,
+        "itemId": 5431,
+        "category": 15
+    },
+    "skirt": {
+        "gumpId": 23,
+        "itemId": 5398,
+        "category": 15
+    },
+
+    "body sash": {
+        "gumpId": 2,
+        "itemId": 5441,
+        "category": 22
+    },
+    "half apron": {
+        "gumpId": 9,
+        "itemId": 5435,
+        "category": 22
+    },
+    "full apron": {
+        "gumpId": 16,
+        "itemId": 5437,
+        "category": 22
     }
 }
 
@@ -135,12 +171,12 @@ class BulkOrderDeed:
     def item_name(self):
         props = Items.GetPropStringList(self.item)
         item_type_prop = props[props.Count - 1]
-        result = re.search('^([a-z A-Z\`\´\']+): ([0-9]+)$', item_type_prop)
+        result = re.search('^([a-z A-Z\`\´\'\-]+): ([0-9]+)$', item_type_prop)
         return result.group(1)
         
     def amount_done(self):
         item_type_prop = self._item_type_prop()
-        result = re.search('^([a-z A-Z\`\´\']+): ([0-9]+)$', item_type_prop)
+        result = re.search('^([a-z A-Z\`\´\'\-]+): ([0-9]+)$', item_type_prop)
         return int(result.group(2))
         
     def _item_type_prop(self):
