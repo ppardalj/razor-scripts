@@ -1,5 +1,0 @@
-Misc.Pause(5000)
-p = Misc.MouseLocation()
-Misc.SendMessage("MouseLocation x: {} y: {}".format(p.X, p.Y))
-Misc.Pause(5000)
-Misc.MouseMove(p.X+10, p.Y+20)

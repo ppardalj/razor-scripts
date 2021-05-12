@@ -1,2 +1,0 @@
-During an upgrade, files are just unzipped, and thes examples may be replace.
-If you want to make changes to one of these Example files, copy it out to somewhere else and change it.
