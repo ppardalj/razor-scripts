@@ -6,6 +6,7 @@ class NotEnoughItems(Exception):
     pass
 
 items_info = {
+    # hats
     "skullcap": {
         "gumpId": 2,
         "itemId": 5444,
@@ -72,6 +73,7 @@ items_info = {
         "category": 1
     },
 
+    # shirts
     "doublet": {
         "gumpId": 2,
         "itemId": 8059,
@@ -122,6 +124,8 @@ items_info = {
         "itemId": 8095,
         "category": 8
     },
+    
+    # pants
     "short pants": {
         "gumpId": 2,
         "itemId": 5422,
@@ -143,6 +147,7 @@ items_info = {
         "category": 15
     },
 
+    # miscellaneous
     "body sash": {
         "gumpId": 2,
         "itemId": 5441,
@@ -157,6 +162,60 @@ items_info = {
         "gumpId": 16,
         "itemId": 5437,
         "category": 22
+    },
+    
+    # footwear
+    "sandals": {
+        "gumpId": 30,
+        "itemId": 5901,
+        "category": 29
+    },
+    "shoes": {
+        "gumpId": 37,
+        "itemId": 5903,
+        "category": 29
+    },
+    "boots": {
+        "gumpId": 44,
+        "itemId": 5899,
+        "category": 29
+    },
+    "thigh boots": {
+        "gumpId": 51,
+        "itemId": 5905,
+        "category": 29
+    },
+    
+    # leather
+    "leather gorget": {
+        "gumpId": 23,
+        "itemId": 5063,
+        "category": 36
+    },
+    "leather cap": {
+        "gumpId": 30,
+        "itemId": 7609,
+        "category": 36
+    },
+    "leather gloves": {
+        "gumpId": 37,
+        "itemId": 5062,
+        "category": 36
+    },
+    "leather sleeves": {
+        "gumpId": 44,
+        "itemId": 5069,
+        "category": 36
+    },
+    "leather leggings": {
+        "gumpId": 51,
+        "itemId": 5067,
+        "category": 36
+    },
+    "leather tunic": {
+        "gumpId": 58,
+        "itemId": 5068,
+        "category": 36
     }
 }
 
