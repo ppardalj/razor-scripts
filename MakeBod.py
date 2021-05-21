@@ -71,7 +71,10 @@ def print_item_id():
     
 class ToolNotFound(Exception):
     pass
-    
+
+def find_scissors():
+    return Items.FindByID(3999, -1, Player.Backpack.Serial)
+
 def find_sewing_kit():
     tool_serial = Items.FindByID(3997, -1, Player.Backpack.Serial)
     if tool_serial is None:
@@ -108,11 +111,9 @@ class BodGump:
         Gumps.SendAction(self.gump_id, 0)
         
 def make_item(item_info):
-    logger.info("Trying to make item")
     sewing_kit = find_sewing_kit()
     Items.UseItem(sewing_kit)
     Misc.Pause(500)
-    logger.info("Using tool")
     tailor_craft_gump = TailorCraftGump()
     tailor_craft_gump.wait_for()
     tailor_craft_gump.press_button(item_info["category"])
@@ -121,45 +122,9 @@ def make_item(item_info):
     tailor_craft_gump.wait_for()
     Misc.Pause(1000)
     tailor_craft_gump.close()
-    logger.info("Item done")
-        
-def make_bod():
-    item = Target.PromptTarget("Select the bulk order deed to fill")
-    if item is None:
-        logger.error("That is not a valid bod")
-        return
-       
-    bod = BulkOrderDeed(item)
-    
-    item_name = bod.item_name()
-    amount_to_make = bod.amount_to_make()
-    amount_done = bod.amount_done()
-    
-    bod.dump_info()
-    
-    item_info = tailoring.items_info[item_name]
-    logger.info(str(item_info["gumpId"]))
-    logger.info(str(item_info["itemId"]))
 
-    bod.show_progress()
-
-    while not bod.is_complete():
-        logger.info("Will make another item")
-        make_item(item_info)
-        amount_done += 1
-        bod.show_progress()
-        
-    if amount_done >= amount_to_make:
-        logger.info("Finished making goods!")
-    else:
-        logger.error("Something went wrong")
-
-        
-def try_fill_bod_with_item(bod, item_id):
-    logger.info("Trying to fill bod...")
-    Misc.Pause(500)
+def combine_bod_with_item(bod, item_to_target):
     Journal.Clear()
-    
     bod.use()
     Misc.Pause(500)
     bod_gump = BodGump()
@@ -171,40 +136,53 @@ def try_fill_bod_with_item(bod, item_id):
     if not Target.HasTarget():
         if not Journal.Search("The maximum amount of requested items have already been combined to this deed"):
             raise Exception("Target was not prompted, but bod is not complete. What happened?")
-    item_to_target = Items.FindByID(item_id, -1, Player.Backpack.Serial)
-    if item_to_target is None:
-        Misc.Pause(500)
-        raise NotEnoughItems()
     Target.TargetExecute(item_to_target)
     Misc.Pause(500)
-    logger.info("Added 1 item to bod!")
 
+def is_item_exceptional(item):
+    props = Items.GetPropStringList(item)
+    for prop in props:
+        if prop.find("exceptional") != -1:
+            return True
+    return False
 
 def fill_bod(bod):
     bod.dump_info()
     
     item_name = bod.item_name()
     item_info = tailoring.items_info[item_name]
+    item_id = item_info["itemId"]
     logger.info(str(item_info["gumpId"]))
-    logger.info(str(item_info["itemId"]))
+    logger.info(str(item_id))
 
     bod.show_progress()
-    
     while not bod.is_complete():
-        # First look if there is an item already crafted
-        try:
-            try_fill_bod_with_item(bod, item_info["itemId"])
-            bod.show_progress()
-        except NotEnoughItems:
-            Target.Cancel()
-            logger.info("Not enough items to fill the bod. Will make another item")
+        item_to_target = Items.FindByID(item_id, -1, Player.Backpack.Serial)
+        while item_to_target is None:
+            logger.info("Not enough items to fill the bod -> will make another item")
             make_item(item_info)
+            Misc.Pause(500)
+            item_to_target = Items.FindByID(item_id, -1, Player.Backpack.Serial)
+        if bod.is_exceptional() and not is_item_exceptional(item_to_target):
+            logger.info("Required exceptional item, but crafted normal -> cutting item")
+            cut_item(item_to_target)
+        else:
+            logger.info("Item done! -> combining with deed")
+            combine_bod_with_item(bod, item_to_target)
+        bod.show_progress()
+        Misc.Pause(1000)
 
     if bod.is_complete():
         logger.info("Bod is complete!")
     else:
         logger.error("Something went wrong")
 
+def cut_item(item_to_target):
+    scissors = find_scissors()
+    Items.UseItem(scissors)
+    Target.WaitForTarget(500, False)
+    Misc.Pause(500)
+    Target.TargetExecute(item_to_target)
 
 def target_bod_to_fill():
     bod_item = Target.PromptTarget("Select the bulk order deed to fill")

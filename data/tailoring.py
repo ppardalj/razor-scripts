@@ -251,7 +251,7 @@ items_info = {
     },
     "studded gloves": {
         "gumpId": 9,
-        "itemId": 5068,
+        "itemId": 5077,
         "category": 43
     },
     "studded sleeves": {
