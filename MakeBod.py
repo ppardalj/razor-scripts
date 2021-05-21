@@ -164,9 +164,6 @@ def fill_bod(bod):
     bod.dump_info()
     
     item_name = bod.item_name()
-    amount_to_make = bod.amount_to_make()
-    amount_done = bod.amount_done()
-    
     item_info = tailoring.items_info[item_name]
     logger.info(str(item_info["gumpId"]))
     logger.info(str(item_info["itemId"]))
@@ -174,7 +171,7 @@ def fill_bod(bod):
     bod.show_progress()
     
     while not bod.is_complete():
-        # First look if there is an item already crafter
+        # First look if there is an item already crafted
         try:
             try_fill_bod_with_item(bod, item_info["itemId"])
             bod.show_progress()
