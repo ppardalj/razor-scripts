@@ -185,12 +185,16 @@ def fill_bod(bod):
     else:
         logger.error("Something went wrong")
 
-bod_item = Target.PromptTarget("Select the bulk order deed to fill")
-if bod_item is None:
-    logger.error("That is not a valid bod")
-else:
-    bod = BulkOrderDeed(bod_item)
-    fill_bod(bod)
+
+def target_bod_to_fill():
+    bod_item = Target.PromptTarget("Select the bulk order deed to fill")
+    if bod_item is None:
+        logger.error("That is not a valid bod")
+    else:
+        bod = BulkOrderDeed(bod_item)
+        fill_bod(bod)
+
+target_bod_to_fill()
 
 #8792
         
