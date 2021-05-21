@@ -32,7 +32,7 @@ def craft_ribs():
     Gumps.WaitForGump(949095101, 10000)
     Gumps.SendAction(949095101, 0)
     Misc.Pause(500)
-    
+
 def train_cooking():
     while True:
         raw_ribs = find_raw_ribs_in_backpack()
