@@ -150,6 +150,7 @@ def make_bod():
         
 def try_fill_bod_with_item(bod, item_id):
     logger.info("Trying to fill bod...")
+    Misc.Pause(500)
     Journal.Clear()
     
     bod.use()
