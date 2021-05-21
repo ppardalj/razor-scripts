@@ -57,6 +57,13 @@ class BulkOrderDeed:
         Items.Move(self.item, to, 1)
         Misc.Pause(500)
 
+    def is_exceptional(self):
+        props = Items.GetPropStringList(self.item)
+        for prop in props:
+            if prop.find("exceptional") != -1:
+                return True
+        return False
+
 def print_item_id():
     item_serial = Target.PromptTarget("Target the item")
     item_id = Items.FindBySerial(item_serial).ItemID
