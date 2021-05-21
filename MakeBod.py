@@ -43,8 +43,20 @@ class BulkOrderDeed:
         
     def use(self):
         Items.UseItem(self.item)
-        
-    
+
+    def is_small(self):
+        props = Items.GetPropStringList(self.item)
+        for prop in props:
+            if prop.find("small") != -1:
+                return True
+            if prop.find("large") != -1:
+                return False
+        return False
+
+    def move_to(self, to):
+        Items.Move(self.item, to, 1)
+        Misc.Pause(500)
+
 def print_item_id():
     item_serial = Target.PromptTarget("Target the item")
     item_id = Items.FindBySerial(item_serial).ItemID
@@ -194,7 +206,22 @@ def target_bod_to_fill():
         bod = BulkOrderDeed(bod_item)
         fill_bod(bod)
 
-target_bod_to_fill()
+def find_bod():
+    return Items.FindByID(8792, -1, Player.Backpack.Serial)
 
-#8792
+def fill_all_bods_in_backpack():
+    book = Items.FindBySerial(1227041137)
+    bod_item = find_bod()
+    while bod_item is not None:
+        bod = BulkOrderDeed(bod_item)
+        if bod.is_small():
+            logger.info("Found a small bod -> filling")
+            fill_bod(bod)
+        else:
+            logger.info("Found a large bod -> moving to book")
+        bod.move_to(book)
+        bod_item = find_bod()
+    logger.info("No more bods to fill")
+
+fill_all_bods_in_backpack()
         
