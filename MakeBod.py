@@ -313,6 +313,9 @@ class BulkOrderDeed:
     def show_progress(self):
         logger.info("Bod progress: " + str(self.amount_done()) + "/" + str(self.amount_to_make()))
         
+    def use(self):
+        Items.UseItem(self.item)
+        
     
 def print_item_id():
     item_serial = Target.PromptTarget("Target the item")
@@ -405,11 +408,11 @@ def make_bod():
         logger.error("Something went wrong")
 
         
-def try_fill_bod_with_item(bod_item, item_id):
+def try_fill_bod_with_item(bod, item_id):
     logger.info("Trying to fill bod...")
     Journal.Clear()
     
-    Items.UseItem(bod_item)
+    bod.use()
     Misc.Pause(500)
     bod_gump = BodGump()
     bod_gump.wait_for()
@@ -429,8 +432,7 @@ def try_fill_bod_with_item(bod_item, item_id):
     logger.info("Added 1 item to bod!")
 
 
-def fill_bod(bod_item):
-    bod = BulkOrderDeed(bod_item)
+def fill_bod(bod):
     bod.dump_info()
     
     item_name = bod.item_name()
@@ -446,7 +448,7 @@ def fill_bod(bod_item):
     while not bod.is_complete():
         # First look if there is an item already crafter
         try:
-            try_fill_bod_with_item(bod_item, item_info["itemId"])
+            try_fill_bod_with_item(bod, item_info["itemId"])
             bod.show_progress()
         except NotEnoughItems:
             Target.Cancel()
@@ -462,5 +464,8 @@ bod_item = Target.PromptTarget("Select the bulk order deed to fill")
 if bod_item is None:
     logger.error("That is not a valid bod")
 else:
-    fill_bod(bod_item)
+    bod = BulkOrderDeed(bod_item)
+    fill_bod(bod)
+    
+8792
         
