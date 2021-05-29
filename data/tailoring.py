@@ -256,7 +256,7 @@ items_info = {
     },
     "studded sleeves": {
         "gumpId": 16,
-        "itemId": 5068,
+        "itemId": 5084,
         "category": 43
     },
     "studded leggings": {
