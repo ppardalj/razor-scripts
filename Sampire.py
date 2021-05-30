@@ -2,6 +2,10 @@ from utils import log
 logger = log.Logger(Misc)
 
 while True:
+    if not Player.BuffsExist('Lightning Strike'):
+        Spells.CastBushido('Lightning Strike')
+        Misc.Pause(300)
+        continue
     if not Player.BuffsExist('Curse Weapon'):
         scroll = Items.FindByID(8803, -1, Player.Backpack.Serial)
         Items.UseItem(scroll)
@@ -19,5 +23,5 @@ while True:
         Spells.CastChivalry('Consecrate Weapon')
         Misc.Pause(2000)
         continue
-    log.info('no cast needed')
+    logger.info('no cast needed')
     Misc.Pause(1000)
